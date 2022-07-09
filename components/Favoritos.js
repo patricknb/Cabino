@@ -1,27 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import data from '../database/db.JSON'
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-const ListaMoradia = ({route, navigation}) => {
-
-  const atualizarfavorito = async(item) => {
-      await AsyncStorage.getItem(item.nome).then(
-        valor => {
-          item.favorito = valor
-        }
-      )
-  }
+const Favoritos = ({route, navigation}) => {
 
   const renderItem = ({ item }) => {
-    atualizarfavorito(item)
-    return (
-      <Item
-        item={item}
-      />
-    );
+    if(item.favorito == "s"){
+      return(
+        <Item item={item}/>
+      )
+    }
   };
 
   const Item = ({item}) => (
@@ -38,13 +26,6 @@ const ListaMoradia = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Favoritos')}}>
-        <Text style={styles.buttonText}>
-          Favoritos
-        </Text>
-      </TouchableOpacity>
-
       <FlatList
         data={data}
         renderItem={renderItem}
@@ -86,4 +67,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ListaMoradia;
+export default Favoritos;
